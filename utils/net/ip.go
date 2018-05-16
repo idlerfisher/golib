@@ -1,6 +1,10 @@
 package net
 
-import "net"
+import (
+	"net"
+	"fmt"
+	"math/big"
+)
 
 func GetIpAddr() string {
 	addrs, err := net.InterfaceAddrs()
@@ -19,4 +23,20 @@ func GetIpAddr() string {
 		return ips[0]
 	}
 	return ""
+}
+
+func InetNtoA(ip int64) string {
+	return fmt.Sprintf("%d.%d.%d.%d",
+		byte(ip>>24), byte(ip>>16), byte(ip>>8), byte(ip))
+}
+
+func InetAtoN(ip string) int64 {
+	ret := big.NewInt(0)
+	ip1 := net.ParseIP(ip)
+	if ip1 != nil {
+		if ip1.To4() != nil {
+			ret.SetBytes(ip1)
+		}
+	}
+	return ret.Int64()
 }
