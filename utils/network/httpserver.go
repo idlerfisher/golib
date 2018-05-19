@@ -2,13 +2,13 @@ package network
 
 import (
 	"context"
-	"net/http"
 	"crypto/sha256"
 	"crypto/subtle"
-	"regexp"
 	"errors"
+	"net/http"
 	"os"
 	"os/signal"
+	"regexp"
 	"syscall"
 )
 
@@ -45,7 +45,7 @@ func ShutdownHttpServer(hs *http.Server) {
 
 func HandleFunc(hs *http.Server, pattern string, handler func(http.ResponseWriter, *http.Request)) {
 	if hs != nil {
-		if s,ok := hs.Handler.(*HttpServer); ok {
+		if s, ok := hs.Handler.(*HttpServer); ok {
 			s.HandleFunc(pattern, handler)
 		}
 	}
@@ -53,7 +53,7 @@ func HandleFunc(hs *http.Server, pattern string, handler func(http.ResponseWrite
 
 func HandleFuncAuth(hs *http.Server, pattern string, handler func(http.ResponseWriter, *http.Request), user, pwd string) {
 	if hs != nil {
-		if s,ok := hs.Handler.(*HttpServer); ok {
+		if s, ok := hs.Handler.(*HttpServer); ok {
 			s.HandleFunc(pattern, authHandler(handler, user, pwd))
 		}
 	}
@@ -93,6 +93,6 @@ func GetIpAddrByRequest(request *http.Request) string {
 func ShutdownHttpServerWaitSignal(hs *http.Server) {
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
-	<- signalChan
+	<-signalChan
 	ShutdownHttpServer(hs)
 }
