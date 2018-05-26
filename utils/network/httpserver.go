@@ -1,3 +1,7 @@
+/**
+有一个缺陷：
+若有捕获根目录("/")，则需要在"/"对应的HandleFunc过滤没有注册过的目录，否则会出现访问(http://localhost/test)也会返回(http://localhost/)的结果
+ */
 package network
 
 import (

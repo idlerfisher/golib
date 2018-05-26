@@ -6,7 +6,7 @@ import (
 	"math/big"
 )
 
-func GetIpAddr() string {
+func GetLocalIpAddr() string {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		return ""
@@ -25,12 +25,12 @@ func GetIpAddr() string {
 	return ""
 }
 
-func InetNtoA(ip int64) string {
+func InetNtoA(ip uint32) string {
 	return fmt.Sprintf("%d.%d.%d.%d",
 		byte(ip>>24), byte(ip>>16), byte(ip>>8), byte(ip))
 }
 
-func InetAtoN(ip string) int64 {
+func InetAtoN(ip string) uint32 {
 	ret := big.NewInt(0)
 	ip1 := net.ParseIP(ip)
 	if ip1 != nil {
@@ -38,5 +38,5 @@ func InetAtoN(ip string) int64 {
 			ret.SetBytes(ip1)
 		}
 	}
-	return ret.Int64()
+	return uint32(ret.Int64())
 }
